@@ -1,0 +1,224 @@
+///*********************************************************************************************************************///
+///*************************************************搭建EOS环境*********************************************************///
+///*********************************************************************************************************************///
+
+//1.下载EOS代码
+git clone https://github.com/EOSIO/eos --recursive
+如果没有--recursive，则在git clone结束后执行：git submodule update --init --recursive
+
+//2.下载对应的依赖库及编译
+cd eos
+./eosio_build.sh
+
+//3~4，不是必须的操作
+//3.启动mongdb
+~/opt/mongodb/bin/mongod -f ~/opt/mongodb/mongod.conf &
+
+//4.run Unit Test
+cd build
+make test
+
+//5.安装EOS软件
+cd build
+sudo make install
+
+//6.启动eos节点
+nodeos
+这时你会发现程序不能正常运行，看不到出块信息，需要进行以下7的操作
+执行完7以后，再次启动
+
+//7.修改nodeos配置文件 ~/.local/share/eosio/nodeos/config/config.ini
+查看配置文件，按照下面的内容，替换或者添加到配置文件中
+vim ~/.local/share/eosio/nodeos/config/config.ini
+
+# Load the testnet genesis state, which creates some initial block producers with the default key
+genesis-json = /你的eos目录/build/genesis.json
+# Enable production on a stale chain, since a single-node test chain is pretty much always stale
+enable-stale-production = true
+# Enable block production with the testnet producers
+producer-name = eosio
+# Load the block producer plugin, so you can produce blocks
+plugin = eosio::producer_plugin
+# Wallet plugin
+plugin = eosio::wallet_api_plugin
+# As well as API and HTTP plugins
+plugin = eosio::chain_api_plugin
+plugin = eosio::http_plugin
+# This will be used by the validation step below, to view account history
+#plugin = eosio::account_history_api_plugin
+
+
+///*********************************************************************************************************************///
+///*************************************************运行Hello合约*******************************************************///
+///*********************************************************************************************************************///
+
+//1.进入合约，建议还在已有的contracts目录下新建合约
+cd contracts
+mkdir helloeos
+
+//2.创建合约helloeos.cpp，编辑合约源码
+#include <eosiolib/eosio.hpp>
+#include <eosiolib/print.hpp>
+
+//用eosio命名空间
+using namespace eosio;
+
+//所有的智能合约都继承自contract类
+class Hello : public eosio::contract {
+
+  public:
+      using contract::contract;
+
+      // @abi action
+	  // 注意：这里的action名，只能是小写
+      void helloeos( account_name user ) {
+         print( "helloeos, ", name{user} );
+      }
+
+};
+EOSIO_ABI( Hello, (helloeos) )
+
+//3.生成.wast文件
+eosiocpp -o helloeos.wast helloeos.cpp
+
+//4.生成.abi文件
+eosiocpp -g helloeos.abi helloeos.cpp
+
+//5.创建钱包，保存好生成的wallet_password 这个钱包wallet_password以后unlck钱包时候需要用
+cleos wallet create
+
+//6.创建2个private key，保存好自己的private key
+产生private_key1和public_Key1
+cleos create key
+产生private_key2和public_key2
+cleos create key
+
+//7.导入private key，并保存好生成的EOS开头的新key
+cleos wallet import 上面create出来的private_key1
+cleos wallet import 上面create出来的private_key2
+
+//8.创建账户
+cleos create account eosio [account_name] public_Key1 public_key2
+
+//9.部署合约
+cleos set contract [account_name] ./contracts/helloeos
+
+//10.执行合约（钱包必须是unlock状态，如果不是cleos wallet unlock --password [wallet_password]）
+cleos push action [account_name] helloeos '{"user":"account_name"}' -p [account_name]
+这个时候应该可以看到合约里面打印的output
+
+
+
+///*********************************************************************************************************************///
+///*************************************************运行Token合约*******************************************************///
+///*********************************************************************************************************************///
+EOS开源了一个发行token的合约样例，我们在此运行一下啊，了解一下
+//1.部署token合约
+cleos set contract [account_name] build/contracts/eosio.token -p [account_name]
+
+//2.调用create函数创建token 
+//param：发行方账号名， 发行数量和token名称，can freeze，can recall，can whitelist
+cleos push action [account_name] create ‘[ “eosio”, “1000000000.0000 EOS”, 0, 0, 0]’ -p [account_name]
+
+//3.转移100个token给其他账户
+cleos push action account_name issue '[ "[receive_account_name]", "100.0000 EOS","memo" ]' -p eosio
+
+//4.查看账户token的余额
+cleos get currency balance [contract_account_name] [持币account_name] [token_name]
+例如：cleos get currency balance dongxr dongxr  EOS
+
+
+
+///*********************************************************************************************************************///
+///****************************************************RPC接口**********************************************************///
+///*********************************************************************************************************************///
+
+//1.如果从未启动过eos节点，这里要先启动成功再做下面的流程，如果之前已经启动过的直接进行下一步
+nodeos
+
+//2.为eosd启用chain_api_plugin和wallet_api_plugin
+修改eosd启动配置文件
+vim ~/eosio-wallet/config.ini （运行nodeos时候，会自动launch eosd模块，生成这个配置文件）
+添加一下两行
+plugin = eosio::chain_api_plugin // 生效链API
+plugin = eosio::wallet_api_plugin // 生效钱包API
+
+//3.重新启动eos节点
+nodeos
+
+//4.使用rpc接口方式去调用eos API（使用的默认本地的ip和端口，有需要可以自行在启动配置文件中修改）
+例如：
+curl http://127.0.0.1:8888/v1/chain/get_info
+得到json格式的数据返回
+{"server_version":"a97a49a0","chain_id":"cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f","head_block_num":30975,"last_irreversible_block_num":30974,"last_irreversible_block_id":"000078feb2b1131ab64ad1a601457ba748af733425459526fec99c77660a1fec","head_block_id":"000078ffd3b7ce19cb0aefa9d17278f74033c7ada22d2e938b9b899f0347f5ae","head_block_time":"2018-06-08T05:29:09","head_block_producer":"eosio","virtual_block_cpu_limit":200000000,"virtual_block_net_limit":1048576000,"block_cpu_limit":199900,"block_net_limit":1048576}
+格式化一下：
+{
+    "server_version": "a97a49a0", 
+    "chain_id": "cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f", 
+    "head_block_num": 30975, 
+    "last_irreversible_block_num": 30974, 
+    "last_irreversible_block_id": "000078feb2b1131ab64ad1a601457ba748af733425459526fec99c77660a1fec", 
+    "head_block_id": "000078ffd3b7ce19cb0aefa9d17278f74033c7ada22d2e938b9b899f0347f5ae", 
+    "head_block_time": "2018-06-08T05:29:09", 
+    "head_block_producer": "eosio", 
+    "virtual_block_cpu_limit": 200000000, 
+    "virtual_block_net_limit": 1048576000, 
+    "block_cpu_limit": 199900, 
+    "block_net_limit": 1048576
+}
+
+
+
+///*********************************************************************************************************************///
+///***********************************************TroubleShooting*******************************************************///
+///*********************************************************************************************************************///
+
+1.区块存储的路径在哪里?
+~/.local/share/eosio/nodeos/data
+可以通过启动的时候设置--data-dir参数来指定区块存储路径
+
+2.执行eosio_build.sh，内存不足的错误“tYour system must have 7 or more Gigabytes of physical memory installed”
+EOS官方说明系统至少需要8G内存，如果当前没有这么大内存的机器，编译的时候可以注释掉内存检查的语句
+scripts/eosio_build_ubuntu.sh
+注释掉以下检查：
+ 27         if [ "${MEM_MEG}" -lt 7000 ]; then
+ 28                 printf "\\tYour system must have 7 or more Gigabytes of physical memory installed.\\n"
+ 29                 printf "\\tExiting now.\\n"
+ 30                 exit 1
+ 31         fi
+
+3.get代码的时候，出现中断
+多试几次，manggodb和boost有的时候连接不稳定
+
+4.git clone mangodb-driver 失败 “A TLS packet with unexpected length was received.”
+sudo apt-get install python
+sudo apt-get install libcurl4-openssl-dev
+sudo apt-get install python-pycurl
+以上命令没有验证，也有可能多试几次就好了
+
+5.虚拟机关闭重启以后，发现build文件夹不见了，编译过程中下载的依赖库也都没有了
+查看虚拟机设置，是不是设置了虚拟机磁盘空间非永久保存（VMware 中遇到过）
+
+6.VirtualBox开机提示“You are in emergency mode. After logging in, type 'journaicti -xb' to view......”
+虚拟机和主机之间的共享设置导致的，
+需要把/etc/fstab中设置共享盘的语句注释掉, 并重启
+开机周再重新mount 并打开/etc/fstab中注释的语句
+sudo mount -t vboxsf workspace ~/workspace/ //前面是主机的共享目录，后面的是虚拟机需要共享的目录，根据自己的情况修改
+sudo vim /etc/fstab
+workspace ~/workspace vbboxsf rw, gid=100, uid=1000, auto 0
+
+7.合约正确executed，但是没有看到相应的print输出
+修改nodeos配置文件 ~/.local/share/eosio/nodeos/config/config.ini
+将contracts-console配置项 改为true，再执行
+
+
+
+
+
+
+
+
+
+
+
+
