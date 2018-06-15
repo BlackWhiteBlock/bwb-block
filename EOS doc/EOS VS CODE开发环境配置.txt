@@ -23,29 +23,43 @@ Code Runner 0.9.3
 //6.debug（debug必须在linux环境下build debug版本的才可以断点调试“./eosio_build.sh -o -debug”）
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ///*********************************************************************************************************************///
 ///***********************************************TroubleShooting*******************************************************///
 ///*********************************************************************************************************************///
 
-//1.不能自动弹出代码提示（未验证）
+1. Please install clang or check configuration `clang.executable 遇到vs code 报需要安装clang或者配置clang
+clang的环境变量没有设置，可以在~/.profile文件里面添加如下代码：（注意代码中空格必须要有）
+if [ -d "$HOME/opt/wasm/bin" ]; then
+        PATH="$HOME/opt/wasm/bin:$PATH"
+fi
+
+source .profile
+clang -v 这时应该可以看到clang的版本信息
+重启vscode 重新加载拓展
+
+2.linux debug 启动失败，说需要配置miDebuggerPath
+查看launch.json文件，确保参数正确，请参考下面的设置：
+{
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/programs/nodeos/nodeos",
+            "args": null,
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+        }
+    ]
+}
+
+
+3.不能自动弹出代码提示（未验证）
 尝试在设置里添加如下设置，并保存
 "[cpp]": {
 	"editor.autoIndent": true,
@@ -53,5 +67,13 @@ Code Runner 0.9.3
   },
 "[c]": {
 	"editor.quickSuggestions":true
-},
-"cmake-tools-helper.auto_set_cpptools_target": true,
+
+4.build all 失败，报CMakeList 什么BOOST dir没有set的问题
+vs code的环境有问题，
+可以删除~/.config/Code/下面所有文件
+rm -rf ~/.config/Code/*
+重新启动 vs code 再build
+	
+	
+	
+	

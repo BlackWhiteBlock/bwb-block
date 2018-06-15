@@ -138,7 +138,7 @@ nodeos
 
 //2.为eosd启用chain_api_plugin和wallet_api_plugin
 修改eosd启动配置文件
-vim ~/eosio-wallet/config.ini （运行nodeos时候，会自动launch eosd模块，生成这个配置文件）
+vim ~/eosio-wallet/config.ini （运行nodeos时候，会自动launch keosd模块，生成这个配置文件）
 添加一下两行
 plugin = eosio::chain_api_plugin // 生效链API
 plugin = eosio::wallet_api_plugin // 生效钱包API
@@ -172,6 +172,8 @@ curl http://127.0.0.1:8888/v1/chain/get_info
 ///*********************************************************************************************************************///
 ///***********************************************TroubleShooting*******************************************************///
 ///*********************************************************************************************************************///
+
+PS:虚拟机使用最好经常备份系统快照
 
 1.区块存储的路径在哪里?
 ~/.local/share/eosio/nodeos/data
@@ -207,9 +209,14 @@ sudo mount -t vboxsf workspace ~/workspace/ //前面是主机的共享目录，�
 sudo vim /etc/fstab
 workspace ~/workspace vbboxsf rw, gid=100, uid=1000, auto 0
 
-7.合约正确executed，但是没有看到相应的print输出
+7.合于正确executed，但是没有看到相应的print输出
 修改nodeos配置文件 ~/.local/share/eosio/nodeos/config/config.ini
-将contracts-console配置项 改为true，再执行
+将ontracts-console配置项 改为true，再执行
+
+
+8.启动keosd失败，报std::exception::what: unable to find plugin: eosio::chain_api_plugin
+权限问题，根因未知
+sudo 来启动， cleos命令前也要加sudo
 
 
 
