@@ -67,6 +67,7 @@ clang -v 这时应该可以看到clang的版本信息
   },
 "[c]": {
 	"editor.quickSuggestions":true
+  },
 
 4.build all 失败，报CMakeList 什么BOOST dir没有set的问题
 vs code的环境有问题，

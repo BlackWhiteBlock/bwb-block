@@ -139,9 +139,11 @@ nodeos
 //2.为eosd启用chain_api_plugin和wallet_api_plugin
 修改eosd启动配置文件
 vim ~/eosio-wallet/config.ini （运行nodeos时候，会自动launch keosd模块，生成这个配置文件）
-添加一下两行
-plugin = eosio::chain_api_plugin // 生效链API
-plugin = eosio::wallet_api_plugin // 生效钱包API
+添加以下plugin
+#plugin = eosio::chain_api_plugin
+plugin = eosio::http_plugin
+plugin = eosio::wallet_api_plugin
+
 
 //3.重新启动eos节点
 nodeos
@@ -215,8 +217,9 @@ workspace ~/workspace vbboxsf rw, gid=100, uid=1000, auto 0
 
 
 8.启动keosd失败，报std::exception::what: unable to find plugin: eosio::chain_api_plugin
-权限问题，根因未知
-sudo 来启动， cleos命令前也要加sudo
+当前的http-server-address port已经被占用
+修改~/eosio-wallet/config.ini 内http-server-address的端口
+检查~/eosio-wallet/config.ini 不要增加plugin = eosio::chain_api_plugin
 
 
 
