@@ -74,7 +74,7 @@ function LockWallet(body, callback)
 function LockAllWallets(callback)
 {
     var result = null;
-    var body = null;
+    var body;
     var key = "/v1/wallet/lock_all";
     doHttpCall(key, body, function (status, data) {
         if (status != 200 && status != 201) {   
@@ -143,7 +143,7 @@ function ImportKey(body, callback)
 function ListWallets(callback)
 {
     var result = null;
-    var body = null;
+    var body;
     var key = "/v1/wallet/list_wallets";
     doHttpCall(key, body, function (status, data) {
         if (status != 200 && status != 201) {   
@@ -166,7 +166,7 @@ function ListWallets(callback)
 function ListKeys(callback)
 {
     var result = null;
-    var body = null;
+    var body;
     var key = "/v1/wallet/list_keys";
     doHttpCall(key, body, function (status, data) {
         if (status != 200 && status != 201) {   
@@ -209,7 +209,7 @@ function SetTimeout(body, callback)
     });
 }
 
-function SetDir(body)
+function SetDir(body, callback)
 {
     var result = null;
     //var body = time;
@@ -232,7 +232,7 @@ function SetDir(body)
     });
 }
 
-function SetEosioKey(body)
+function SetEosioKey(body, callback)
 {
     var result = null;
     //var body = time;
@@ -255,7 +255,7 @@ function SetEosioKey(body)
     });
 }
 
-function SetDigest(body)
+function SetDigest(body, callback)
 {
     var result = null;
     //var body = time;
@@ -278,7 +278,7 @@ function SetDigest(body)
     });
 }
 
-function CreateKey(body)
+function CreateKey(body, callback)
 {
     var result = null;
     //var body = time;

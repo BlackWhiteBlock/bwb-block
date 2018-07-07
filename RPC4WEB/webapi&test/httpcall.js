@@ -10,17 +10,20 @@ function doHttpCall(key, body, callback)
         url: http + domain + ":" + port + key, 
         type: "post",  
         asyn:false, 
-        dataType: "json",   
-        data: JSON.stringify(body),  
+        dataType: "json",  
+            data: JSON.stringify(body),  
         beforeSend: function(request) {
             request.setRequestHeader("Access-Control-Allow-Origin", "*");
             request.setRequestHeader("Accept", "*/*");
             request.setRequestHeader("Connection", "close");
         },
-        success: function (ret) {      
+        success: function (ret) { 
+            console.log(ret);     
             callback(200, ret);
         } ,
         error: function(ret, textStatus){
+            console.log(ret.status);
+            console.log(ret.responseText);
             callback(ret.status, ret.responseText);
         } 
     })

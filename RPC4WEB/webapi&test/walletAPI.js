@@ -3,7 +3,7 @@
 function test()
 {
     alert("click");
-    CreateWallet("hello", function (data){
+    GetInfo(function (data){
 
         console.log(data.status);
         if (data.status == 200 || data.status == 201)

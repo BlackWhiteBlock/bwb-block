@@ -3,7 +3,7 @@ document.write("<script src='httpcall.js'></script>");
 function GetInfo(callback)
 {
     var result = null;
-    var body = null;
+    var body;
     var key = "/v1/chain/get_info";
     doHttpCall(key, body, function (status, data) {
         if (status != 200 && status != 201) {   
