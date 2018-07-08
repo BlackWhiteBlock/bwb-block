@@ -3,7 +3,7 @@
 function test()
 {
     alert("click");
-    var data = CreateWallet("ningsssdddd");
+    var data = CreateWalletSync("ningsssdddd");
     if (data.status == 200 || data.status == 201)
     {
         alert(data.status);

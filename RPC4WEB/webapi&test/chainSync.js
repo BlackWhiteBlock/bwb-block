@@ -1,103 +1,103 @@
 document.write("<script src='httpcallSync.js'></script>");
 
-function GetInfo()
+function GetInfoSync()
 {
     var body;
     var key = "/v1/chain/get_info";
     return doHttpCallSync(key, body);
 }
 
-function GetBlock(body)
+function GetBlockSync(body)
 {
     //var body = '{"block_num_or_id":' + blockNumOrID + '}';
     var key = "/v1/chain/get_block";
     return doHttpCallSync(key, body);
 }
 
-function GetBlockHeaderState(body)
+function GetBlockHeaderStateSync(body)
 {
     //var body = '{"block_num_or_id":' + blockNumOrID + '}';
     var key = "/v1/chain/get_block_header_state";
     return doHttpCallSync(key, body);
 }
 
-function GetCurrentBalance(body)
+function GetCurrentBalanceSync(body)
 {
     //var body = '{"block_num_or_id":' + blockNumOrID + '}';
     var key = "/v1/chain/get_currency_balance";
     return doHttpCallSync(key, body);
 }
 
-function GetCurrentBalance(body)
+function GetCurrentBalanceSync(body)
 {
     //var body = '{"block_num_or_id":' + blockNumOrID + '}';
     var key = "/v1/chain/get_currency_balance";
     return doHttpCallSync(key, body);
 }
 
-function GetAccount(body)
+function GetAccountSync(body)
 {
     //var body = '{"account_name":"' + accountName + '"}';
     var key = "/v1/chain/get_account";
     return doHttpCallSync(key, body);
 }
 
-function GetAbi(body)
+function GetAbiSync(body)
 {
     //var body = '{"account_name":"' + accountName + '"}';
     var key = "/v1/chain/get_code";
     return doHttpCallSync(key, body);
 }
 
-function GetTableRows(body)
+function GetTableRowsSync(body)
 {
     var key = "/v1/chain/get_table_rows";
     return doHttpCallSync(key, body);     
 }
 
-function PushTransaction(body)
+function PushTransactionSync(body)
 {
     var key = "/v1/chain/push_transaction";
     return doHttpCallSync(key, body);     
 }
 
-function GetTableRows(body)
+function GetTableRowsSync(body)
 {
     var key = "/v1/chain/get_table_rows";
     return doHttpCallSync(key, body);     
 }
 
-function AbiJsonToBin(body)
+function AbiJsonToBinSync(body)
 {
     var key = "/v1/chain/abi_json_to_bin";
     return doHttpCallSync(key, body);     
 }
 
-function AbiBinToJson(body)
+function AbiBinToJsonSync(body)
 {
     var key = "/v1/chain/abi_bin_to_json";
     return doHttpCallSync(key, body);     
 }
 
-function GetRequireKeys(body)
+function GetRequireKeysSync(body)
 {
     var key = "/v1/chain/get_required_keys";
     return doHttpCallSync(key, body);     
 }
 
-function GetCurrentStats(body)
+function GetCurrentStatsSync(body)
 {
     var key = "/v1/chain/get_currency_stats";
     return doHttpCallSync(key, body);     
 }
 
-function GetProducers(body)
+function GetProducersSync(body)
 {
     var key = "/v1/chain/get_producers";
     return doHttpCallSync(key, body);     
 }
 
-function PushBlock(body)
+function PushBlockSync(body)
 {
     var key = "/v1/chain/push_block";
     return doHttpCallSync(key, body);     

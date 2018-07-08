@@ -1,7 +1,7 @@
 document.write("<script src='httpcallSync.js'></script>");
 
 
-function CreateWallet(body)
+function CreateWalletSync(body)
 {
     //var body = '"' + walletName + '"';
     var key = "/v1/wallet/create";
@@ -9,7 +9,7 @@ function CreateWallet(body)
     return result;
 }
 
-function OpenWallet(body)
+function OpenWalletSync(body)
 {
     //var body = '"' + walletName + '"';
     var key = "/v1/wallet/open";
@@ -17,7 +17,7 @@ function OpenWallet(body)
     return result;
 }
 
-function LockWallet(body)
+function LockWalletSync(body)
 {
     //var body = '"' + walletName + '"';
     var key = "/v1/wallet/lock";
@@ -25,7 +25,7 @@ function LockWallet(body)
     return result;
 }
 
-function LockAllWallets()
+function LockAllWalletsSync()
 {
     var body;
     var key = "/v1/wallet/lock_all";
@@ -33,7 +33,7 @@ function LockAllWallets()
     return result;
 }
 
-function UnlockWallet(body)
+function UnlockWalletSync(body)
 {
     //var body = '["' + walletName + '","' + password + '"]';
     var key = "/v1/wallet/unlock";
@@ -41,15 +41,15 @@ function UnlockWallet(body)
     return result;
 }
 
-function ImportKey(body)
+function ImportKeySync(body)
 {
-    var body = '["' + walletName + '","' + privateKey + '"]';
+    //var body = '["' + walletName + '","' + privateKey + '"]';
     var key = "/v1/wallet/import_key";
     var result = doHttpCallSync(key, body);
     return result;
 }
 
-function ListWallets()
+function ListWalletsSync()
 {
     var body;
     var key = "/v1/wallet/list_wallets";
@@ -57,7 +57,7 @@ function ListWallets()
     return result;
 }
 
-function ListKeys()
+function ListKeysSync()
 {
     var body;
     var key = "/v1/wallet/list_keys";
@@ -65,7 +65,7 @@ function ListKeys()
     return result;
 }
 
-function SetTimeout(body)
+function SetTimeoutSync(body)
 {
     //var body = time;
     var key = "/v1/wallet/set_timeout";
@@ -73,7 +73,7 @@ function SetTimeout(body)
     return result;
 }
 
-function SetDir(body)
+function SetDirSync(body)
 {
     //var body = time;
     var key = "/v1/wallet/set_dir";
@@ -81,7 +81,7 @@ function SetDir(body)
     return result;
 }
 
-function SetEosioKey(body)
+function SetEosioKeySync(body)
 {
     //var body = time;
     var key = "/v1/wallet/set_eosio_key";
@@ -89,7 +89,7 @@ function SetEosioKey(body)
     return result;
 }
 
-function SetDigest(body)
+function SetDigestSync(body)
 {
     //var body = time;
     var key = "/v1/wallet/sign_digest";
@@ -97,7 +97,7 @@ function SetDigest(body)
     return result;
 }
 
-function CreateKey(body)
+function CreateKeySync(body)
 {
     //var body = time;
     var key = "/v1/wallet/create_key";
