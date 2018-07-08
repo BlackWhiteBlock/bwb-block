@@ -9,9 +9,8 @@ function doHttpCall(key, body, callback)
     $.ajax({   
         url: http + domain + ":" + port + key, 
         type: "post",  
-        asyn:false, 
         dataType: "json",  
-            data: JSON.stringify(body),  
+        data: JSON.stringify(body),  
         beforeSend: function(request) {
             request.setRequestHeader("Access-Control-Allow-Origin", "*");
             request.setRequestHeader("Accept", "*/*");
