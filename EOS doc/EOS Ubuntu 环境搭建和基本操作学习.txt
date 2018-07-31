@@ -1,4 +1,4 @@
-///*********************************************************************************************************************///
+﻿///*********************************************************************************************************************///
 ///*************************************************搭建EOS环境*********************************************************///
 ///*********************************************************************************************************************///
 
@@ -21,6 +21,7 @@ make test
 //5.安装EOS软件
 cd build
 sudo make install
+export PATH=/usr/local/eosio/bin:$PATH
 
 //6.启动eos节点
 nodeos
@@ -100,6 +101,7 @@ cleos wallet import 上面create出来的private_key2
 //8.创建账户
 cleos create account eosio [account_name] public_Key1 public_key2
 
+
 //9.部署合约
 cleos set contract [account_name] ./contracts/helloeos
 
@@ -118,7 +120,7 @@ cleos set contract [account_name] build/contracts/eosio.token -p [account_name]
 
 //2.调用create函数创建token 
 //param：发行方账号名， 发行数量和token名称，can freeze，can recall，can whitelist
-cleos push action [account_name] create ‘[ “eosio”, “1000000000.0000 EOS”, 0, 0, 0]’ -p [account_name]
+cleos push action [account_name] create ‘[ “eosio”, “1000000000.0000 EOS”]’ -p [account_name]
 
 //3.转移100个token给其他账户
 cleos push action account_name issue '[ "[receive_account_name]", "100.0000 EOS","memo" ]' -p eosio
@@ -221,7 +223,13 @@ workspace ~/workspace vbboxsf rw, gid=100, uid=1000, auto 0
 修改~/eosio-wallet/config.ini 内http-server-address的端口
 检查~/eosio-wallet/config.ini 不要增加plugin = eosio::chain_api_plugin
 
+9.Error 3090003:provided keys, permissions, and delays do not satisfy declared authorizations
+解决方案 导入需要的私钥
+该命令本身是一个action,会产生一个transaction,最后会保存在链上的，所以该操作依赖nodeos程序，必须启动nodeos程序。上面的OwnerKey，ActiveKey都是公钥。creator必须是一个已经存在的账号，
+这里就有个问题了，我们第一次创建账号，从哪里获取这个creator账号？这个账号就是eosio, eosio这个特殊账号是在nodeos启动时自动生成的，且这个账号的private key,和public key是hardcode固定的。
+当然搭建私有网络你可以通过修改config文件来修改这两个值，但是你同时也得修改这个私有网络的其他节点对应的private key, public key值。
 
+·
 
 
 

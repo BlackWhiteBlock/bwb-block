@@ -1,0 +1,55 @@
+///1.基本配置
+EOS versio: 1.1.1
+System: ubuntu
+ 
+四台服务器节点名称与对应IP：
+eosio 192.168.181.168
+producer1 192.168.181.155 admin/123456
+producer2 192.168.181.132 dongxr/123456
+producer3 192.168.181.158
+
+产快者个数：
+eos/contracts/eosio.system/eosio.system.hpp：
+BLOCK_PRODUCER_NUM  3
+CORE_SYMBOL_NAME “RRV”
+
+
+///2.账户信息
+        root: eosio
+   producers: producer1, producer2, producer3
+normal users: user1, user2, user3
+  
+eosio:
+ public: EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+private: 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
+     IP: 192.168.181.168:9876
+	 
+
+cleos  system regproducer account_name public_key 
+clo
+producer1:
+ public: EOS6cxPHwuCmhsxbbPLqcqzFvQnwVexfWrq7g7RqvgrP2EeSSMgV4
+private: 5KNCYKFzJ1Us2b9pkmteJWyeii4B2sR7Rncd1Pzq2CCB4fkioc7
+     IP：192.168.181.155:9876
+
+producer2:
+ public: EOS5yUXdZD5d7g5gExWo388xNWDi2Dh3boxKbgLnJnYj8PmeXBEVy
+private: 5JTKXUaVPeJyHf8Ncmu41Wc3orxnCWk9iBCiWKuboLc9EHAVpEM
+     IP:192.168.181.132:9876
+
+producer3:
+ public: EOS6GrNJ2dbBXJFGNSrcebpPJsuidWvbkMGHfur2en6aH681Jgux9
+private: 5JuVPq5JicVhk3CLWwSnmjAKbrsLKhcCPGWoCjt1t9vSGbMM6xs
+
+user1:
+ public: EOS8bLquC3ByN51tDsDzTpX4Rt3GawTnd75XPpKMpDeB2fFYfbGjS
+private: 5JGqN3JbyH97AqqN66sLD5MSwDTjMPXDATyMbnPKJA73jfJcZtZ
+
+user2:
+ public: EOS7N3i3EbYHxekd4zPnzzPee4PPw2wWBbJ6jsLAJVcZhDdwJw1Dy
+private: 5JukFyLYg25VUrm4XhwkSzpFysNvqbhpPGhPc9sDwd9aNg4qVFX
+
+user3:
+ public: EOS79cd219RoEL4HgLADF2WLGxmub9dWUAYmjRn2eNc3zi76qLt6A
+private: 5HwARyPf756Le4fZjCBuQT55Hecvf3JqfmqvYrvv3DNHK3MT9pz
+
