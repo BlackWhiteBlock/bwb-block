@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="whole.css"/>
+
+<head>
+    <meta charset="UTF-8">
+    <title>转账</title>
+    <style>
+        .transfer{
+            margin-left: 10px;
+            color: black;
+            font-size:25px;
+            /*font-weight:800*/
+        }
+        .content{
+            margin-left: 150px;
+            margin-right: 150px;
+            margin-top: 50px;
+        }
+        .yuer{
+            margin-left: 150px;
+        }
+        .input{
+            width:100%;
+            height: 45px;
+            display: inline-block;
+        }
+        .send{
+            margin-left: 80px;
+        }
+        .sendInput{
+            margin-left: 20px;
+            width: 300px;
+        }
+        .num{
+            margin-left: 80px;
+        }
+        .numnput{
+            margin-left: 20px;
+            width: 200px;
+        }
+        .money{
+            margin-left: 65px;
+        }
+        .moneyInput{
+            margin-left: 20px;
+            width: 200px;
+        }
+        .inputbz{
+            width:100%;
+            height: 150px;
+            display: inline-block;
+            float: left;
+        }
+        .beizhu{
+            margin-left: 50px;
+        }
+        .bzInput{
+            margin-left: 15px;
+            width: 200px;
+            height: 100px;
+            display: inline-block;
+        }
+
+        .sendBtn{
+            margin-left: 150px;
+            text-align: center;
+            width: 50px;
+            height: 30px;
+            font-size: 15px;
+            border-radius: 5px;
+            border-top: 0.5px solid #c0c0c0;
+            border-bottom: 0.5px solid #c0c0c0;
+            border-left: 0.5px solid #c0c0c0;
+            border-right: 0.5px solid #c0c0c0;
+
+        }
+    </style>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="httpcallSync.js"></script>
+    <script type="text/javascript" src="walletSync.js"></script>
+    <script type="text/javascript" src="chainSync.js"></script>
+    <script type="text/javascript" src="page1.js"></script>
+</head>
+<body>
+<div class="content">
+    <span class="transfer">转账</span>
+    <form action="" method="get">
+        <span>转出账户</span>
+        <select id = "userselect" name="user" onchange=getAccountCurrency()>
+            <option value="user1">user1</option>
+            <option value="user2">user2</option>
+        </select>
+    </form>
+    <span class="input">
+        <span id = "accountaddress" class="address"></span>
+        <span id = "currency" class="yuer"></span>
+    </span>
+    <!--<br/><br/><br/><br/>-->
+    <span class="input">
+        <span class="send">发往</span>
+        <span>
+            <input class="sendInput" type="text" placeholder="请填写收款方的注册账户或账户地址" id="sendInputName" o="">
+        </span>
+    </span>
+    <span class="input">
+        <span class="num">数量</span>
+        <span>
+            <input class="numnput" type="text" placeholder="" id="numIputName" o="">
+        </span>
+    </span>
+    <span class="input">
+        <span class="money">手续费</span>
+        <span>
+            <input class="moneyInput" type="text" placeholder="" id="moneyInputName" o="">
+        </span>
+    </span>
+    <span class="inputbz">
+        <span class="beizhu">备注信息</span>
+        <span>
+            <textarea class="bzInput"></textarea>
+        </span>
+    </span>
+    <span class="sendBtn" onclick="send()">发送</span>
+
+</div>
+
+</body>
+</html>

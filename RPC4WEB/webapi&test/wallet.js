@@ -1,12 +1,16 @@
 //document.write("<script src='httpcall.js'></script>");
 
+var http = "http://";
+var domain = "127.0.0.1";
+var walletport = "9000";
 
 function CreateWallet(body, callback)
 {
     var result = null;
     //var body = '"' + walletName + '"';
     var key = "/v1/wallet/create";
-    doHttpCall(key, body, function (status, data) {
+    var uri =  http + domain + ":" + walletport + key;
+    doHttpCall(uri, body, function (status, data) {
         alert(status);
         if (status != 200 && status != 201) {   
             var result = null;
@@ -30,7 +34,8 @@ function OpenWallet(body, callback)
     var result = null;
     //var body = '"' + walletName + '"';
     var key = "/v1/wallet/open";
-    doHttpCall(key, body, function (status, data) {
+    var uri =  http + domain + ":" + walletport + key;
+    doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
             if (status == 0) {
@@ -53,7 +58,8 @@ function LockWallet(body, callback)
     var result = null;
     //var body = '"' + walletName + '"';
     var key = "/v1/wallet/lock";
-    doHttpCall(key, body, function (status, data) {
+    var uri =  http + domain + ":" + walletport + key;
+    doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
             if (status == 0) {
@@ -76,7 +82,8 @@ function LockAllWallets(callback)
     var result = null;
     var body;
     var key = "/v1/wallet/lock_all";
-    doHttpCall(key, body, function (status, data) {
+    var uri =  http + domain + ":" + walletport + key;
+    doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
             if (status == 0) {
@@ -99,7 +106,8 @@ function UnlockWallet(body, callback)
     var result = null;
     //var body = '["' + walletName + '","' + password + '"]';
     var key = "/v1/wallet/unlock";
-    doHttpCall(key, body, function (status, data) {
+    var uri =  http + domain + ":" + walletport + key;
+    doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
             if (status == 0) {
@@ -117,12 +125,13 @@ function UnlockWallet(body, callback)
     });
 }
 
-function ImportKey(body, callback)
+function ImwalletportKey(body, callback)
 {
     var result = null;
     var body = '["' + walletName + '","' + privateKey + '"]';
-    var key = "/v1/wallet/import_key";
-    doHttpCall(key, body, function (status, data) {
+    var key = "/v1/wallet/imwalletport_key";
+    var uri =  http + domain + ":" + walletport + key;
+    doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
             if (status == 0) {
@@ -145,7 +154,8 @@ function ListWallets(callback)
     var result = null;
     var body;
     var key = "/v1/wallet/list_wallets";
-    doHttpCall(key, body, function (status, data) {
+    var uri =  http + domain + ":" + walletport + key;
+    doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
             if (status == 0) {
@@ -168,7 +178,8 @@ function ListKeys(callback)
     var result = null;
     var body;
     var key = "/v1/wallet/list_keys";
-    doHttpCall(key, body, function (status, data) {
+    var uri =  http + domain + ":" + walletport + key;
+    doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
             if (status == 0) {
@@ -191,7 +202,8 @@ function SetTimeout(body, callback)
     var result = null;
     //var body = time;
     var key = "/v1/wallet/set_timeout";
-    doHttpCall(key, body, function (status, data) {
+    var uri =  http + domain + ":" + walletport + key;
+    doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
             if (status == 0) {
@@ -214,7 +226,8 @@ function SetDir(body, callback)
     var result = null;
     //var body = time;
     var key = "/v1/wallet/set_dir";
-    doHttpCall(key, body, function (status, data) {
+    var uri =  http + domain + ":" + walletport + key;
+    doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
             if (status == 0) {
@@ -237,7 +250,8 @@ function SetEosioKey(body, callback)
     var result = null;
     //var body = time;
     var key = "/v1/wallet/set_eosio_key";
-    doHttpCall(key, body, function (status, data) {
+    var uri =  http + domain + ":" + walletport + key;
+    doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
             if (status == 0) {
@@ -260,7 +274,8 @@ function SetDigest(body, callback)
     var result = null;
     //var body = time;
     var key = "/v1/wallet/sign_digest";
-    doHttpCall(key, body, function (status, data) {
+    var uri =  http + domain + ":" + walletport + key;
+    doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
             if (status == 0) {
@@ -283,7 +298,8 @@ function CreateKey(body, callback)
     var result = null;
     //var body = time;
     var key = "/v1/wallet/create_key";
-    doHttpCall(key, body, function (status, data) {
+    var uri =  http + domain + ":" + walletport + key;
+    doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
             if (status == 0) {

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎来到光伏项目</title>
+    <style>
+        .content{
+            margin-left: 50px;
+            margin-top: 50px;
+        }
+        .transfer{
+            margin-left: 10px;
+            color: black;
+            font-size:25px;
+            display: block;
+        }
+        .name{
+            width: 100%;
+        }
+        .input{
+            margin-top: 10px;
+            width:100%;
+            height: 45px;
+            display: inline-block;
+        }
+
+        .yuer{
+            margin-left: 150px;
+        }
+        .total{
+            display: block;
+        }
+        .exchange{
+            display: block;
+            margin-top: 20px;
+            padding-left: 10px;
+            padding-right: 10px;
+            width: 100px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border-top: 0.5px solid #c0c0c0;
+            border-bottom: 0.5px solid #c0c0c0;
+            border-left: 0.5px solid #c0c0c0;
+            border-right: 0.5px solid #c0c0c0;
+        }
+        .title{
+            margin-top: 10px;
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+<div class="content">
+    <span class="transfer">欢迎来到光伏项目</span><br/>
+    <span class="name">user2</span><br/>
+    <span class="input">
+        <span class="address">账户地址:DSHKGHASHGKDGDKGDGHDGHDLGJ</span>
+        <span class="yuer">余额:67BWB</span>
+    </span>
+    <span class="input">
+        <span class="num">请输入您要兑换的光伏板数量：</span>
+        <span>
+            <input class="numInput" type="text" placeholder="" id="numInputName" o="">
+        </span>
+    </span>
+    <span class="input">
+        <span class="address">请输入您要安装的地址和地址：</span>
+        <span>
+            <input class="addressInput" type="text" placeholder="" id="addressInputName" o="">
+        </span>
+    </span>
+    <span class="total">总花费:50BWB</span>
+    <span class="exchange" onclick="exchange()">确认兑换</span>
+    <span class="title">您已经成功兑换XX数量的光伏板，请保持电话畅通，客服会联系您，预约时间上门安装。</span>
+</div>
+</body>
+</html>

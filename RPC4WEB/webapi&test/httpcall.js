@@ -1,16 +1,12 @@
 
 
-var http = "http://";
-var domain = "localhost";
-var port = "8888";
-
-function doHttpCall(key, body, callback)
+function doHttpCall(uri, body, callback)
 {
     $.ajax({   
-        url: http + domain + ":" + port + key, 
+        url:uri, 
         type: "post",  
         dataType: "json",  
-        data: JSON.stringify(body),  
+        data: body,  
         beforeSend: function(request) {
             request.setRequestHeader("Access-Control-Allow-Origin", "*");
             request.setRequestHeader("Accept", "*/*");
