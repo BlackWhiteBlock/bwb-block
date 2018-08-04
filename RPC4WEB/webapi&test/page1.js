@@ -34,16 +34,16 @@ function getAccounts()
 function getAccountCurrency()
 {
    // alert("getAccountCurrency");
-    var code = "eosio";
+    var code = "eos.token";
     var accountName = $('#userselect').val();
-    var body = {"code":"user1", "account_name":"user2"};
+    var body = {"code":"eos.token", "account_name":"user1"};
     //body.code = code;
     //body.account_name = accountName;
     var data = GetCurrencyBalanceSync(JSON.stringify(body));
     if (data.status == 200 || data.status == 201)
     {
         var jsonobj = data.message;
-        alert(JSON.stringify(jsonobj));
+        //alert(JSON.stringify(jsonobj));
         $("#currency").text("账户余额:" + JSON.stringify(jsonobj));
     } else {
         alert(data.error);  
@@ -59,6 +59,7 @@ function Transfer()
     var blockPrefix = 0;
     var jsonSignResult = {};
     var timestamp = "";
+    var chainid = "";
 
     var from = $('#userselect').val();
     var to = $("#sendInputName").val();
@@ -66,21 +67,21 @@ function Transfer()
     var memo = $("#psText").val();
 
     var jsontransfer = {
-                        "code": "user1",
+                        "code": "eos.token",
                         "action": "transfer",
                         "args": {
-                                "from": "user2",
-                                "to": "user3",
-                                "quantity": "200.0000 BWB",
-                                "memo": "user2 to user3 XXX RRV"
+                                "from": "user1",
+                                "to": "user2",
+                                "quantity": "1000.0000 BWB",
+                                "memo": "user1 to user1 XXX BWB"
                             }
                         };
-/*
+
     jsontransfer.args.from = from;
     jsontransfer.args.to = to;
     jsontransfer.args.quantity = number;
     jsontransfer.args.memo = memo;
-*/
+
     var data = AbiJsonToBinSync(JSON.stringify(jsontransfer));
     if (data.status == 200 || data.status == 201)
     {
@@ -98,6 +99,7 @@ function Transfer()
     {
         var jsonobj = data.message;
         blocknum = jsonobj.head_block_num;
+        chainid = jsonobj.chain_id;
         console.log(blocknum);
     } else {
         alert(data.error);  
@@ -113,7 +115,10 @@ function Transfer()
         var jsonobj = data.message;
         blockPrefix = jsonobj.ref_block_prefix;
         timestamp = jsonobj.timestamp;
-        console.log(blockPrefix);
+        var d = new Date(timestamp);
+        timestamp = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + 'T' + (d.getHours()+1) + ':' + d.getMinutes() + ':' + d.getSeconds() + '.' + d.getMilliseconds(); 
+        
+        console.log(timestamp);
     } else {
         //alert(data.error);  
         //alert(data.status);
@@ -123,8 +128,8 @@ function Transfer()
     var walletname = "bwb";
     var password = "PW5HpurETUUQgT8f6ezPP129gbQD2RdXkRUWLGrGUorc5hvj3phXh";
 
-    var jsonUnlockWallet = ['"' + walletname + '","' + password + '"'];
-    data = UnlockWalletSync(JSON.stringify(jsonUnlockWallet));
+    var jsonUnlockWallet = '["' + walletname + '","' + password + '"]';
+    data = UnlockWalletSync(jsonUnlockWallet);
     if (data.status == 200 || data.status == 201)
     {
         console.log(JSON.stringify(jsonobj));
@@ -133,45 +138,43 @@ function Transfer()
         //alert(data.status);
         //alert(data.message);          
     }
-/*
-    var jsonRequiredKey = {"transaction":
-                            {"ref_block_num":"46142",
-                            "ref_block_prefix":"3709621714",
-                            "expiration":"2018-08-01T08:50:12.000",
-                            "scope":["user1", "user2"],
-                            "actions": 
-                                [
-                                    {
-                                        "account": "eosio.token",
-                                        "name": "transfer",
-                                        "recipients": ["user1", "user2"],
-                                        "authorization": 
-                                            [
-                                                {"actor": "user1",
-                                                 "permission": "active"
-                                                }
-                                            ],
-                                        "data": "00000000807015d600000000007115d680841e0000000000045252560000000016757365723120746f2075736572322032303020525256"
-                                    }
-                                ],
-                                "signatures": [],
-                                "authorizations": []
-                            }, 
-                            "available_keys":
-                                [
-                                    "EOS8bLquC3ByN51tDsDzTpX4Rt3GawTnd75XPpKMpDeB2fFYfbGjS",
-                                    "EOS7N3i3EbYHxekd4zPnzzPee4PPw2wWBbJ6jsLAJVcZhDdwJw1Dy", 
-                                    "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV"
-                                ]
-                        };
-*/
+
+
+    var jsonrequiredkey = GetRequriedKeyObj();
+    var jsontranobj = jsonrequiredkey.transaction;
+
+    jsontranobj.ref_block_num = blocknum;
+    jsontranobj.ref_block_prefix = blockPrefix;
+    jsontranobj.expiration = timestamp;
+    var actionsobj = jsontranobj.actions;
+    actionsobj[0].data = binary;
+    var jsonpublickey = jsonrequiredkey.available_keys;
+    jsonpublickey[0] = publicKey;
+
+    console.log(JSON.stringify(jsonrequiredkey));
+    data = GetRequireKeysSync(JSON.stringify(jsonrequiredkey));
+    if (data.status == 200 || data.status == 201)
+    {
+        jsonSignResult = data.message;
+        console.log(JSON.stringify(jsonSignResult));
+    } else {
+        //alert(data.error);  
+       // alert(data.status);
+        //alert(data.message);          
+    }  
+
+
+
     var jsonsigntranfer = GetSignTranObj();
     jsonsigntranfer[0].ref_block_num = blocknum;
     jsonsigntranfer[0].ref_block_prefix = blockPrefix;
     jsonsigntranfer[0].expiration = timestamp;
-    jsonsigntranfer[0].data = binary;
+    var actionsobj = jsonsigntranfer[0].actions;
+    actionsobj[0].data = binary;
     var jsonpublickey = jsonsigntranfer[1];
     jsonpublickey[0] = publicKey;
+
+    jsonsigntranfer[2] = chainid;
     console.log(JSON.stringify(jsonsigntranfer));
     data = SignTransactionSync(JSON.stringify(jsonsigntranfer));
     if (data.status == 200 || data.status == 201)
@@ -185,7 +188,12 @@ function Transfer()
     }  
 
     var jsonpushtransaction = GetPushTranactionObj();
+    //delete jsonSignResult.delay_sec;
+    //delete jsonSignResult.context_free_data;
+    jsonpushtransaction.signatures = jsonSignResult.signatures;
+    //delete jsonSignResult.signatures;
     jsonpushtransaction.transaction = jsonSignResult;
+    console.log(JSON.stringify(jsonpushtransaction));
     data = PushTransactionSync(JSON.stringify(jsonpushtransaction));
     if (data.status == 200 || data.status == 201)
     {
@@ -242,17 +250,17 @@ function GetSignTranObj()
             "ref_block_num":"46142",
             "ref_block_prefix":"3709621714",
             "expiration":"2018-08-01T08:50:12.000",
-            "scope": ["user2", "user3"],
+            "scope": ["user1", "user2"],
             "read_scope": [],
             "actions": 
                 [
                     {
-                        "account": "user2",
+                        "account": "eos.token",
                         "name": "transfer",
                         "authorization": 
                             [
                                 {
-                                    "actor": "user2",
+                                    "actor": "user1",
                                     "permission": "active"
                                 }
                             ],
@@ -266,4 +274,37 @@ function GetSignTranObj()
         ""
     ];
     return jsonsigntranfer;
+}
+
+function GetRequriedKeyObj()
+{
+    var jsonRequiredKey = {"transaction":
+                            {"ref_block_num":"46142",
+                            "ref_block_prefix":"3709621714",
+                            "expiration":"2018-08-01T08:50:12.000",
+                            "scope":["user1", "user2"],
+                            "actions": 
+                                [
+                                    {
+                                        "account": "eos.token",
+                                        "name": "transfer",
+                                        "recipients": ["user1", "user2"],
+                                        "authorization": 
+                                            [
+                                                {"actor": "user1",
+                                                 "permission": "active"
+                                                }
+                                            ],
+                                        "data": "00000000807015d600000000007115d680841e0000000000045252560000000016757365723120746f2075736572322032303020525256"
+                                    }
+                                ],
+                                "signatures": [],
+                                "authorizations": []
+                            }, 
+                            "available_keys":
+                                [
+                                    "EOS8bLquC3ByN51tDsDzTpX4Rt3GawTnd75XPpKMpDeB2fFYfbGjS",
+                                ]
+                        }
+    return  jsonRequiredKey;
 }
