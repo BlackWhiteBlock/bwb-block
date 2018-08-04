@@ -112,6 +112,15 @@ function SetDigestSync(body)
     return result;
 }
 
+function SignTransactionSync(body)
+{
+    //var body = time;
+    var key = "/v1/wallet/sign_transaction";
+    var uri =  http + domain + ":" + walletport + key;
+    var result = doHttpCallSync(uri, body);
+    return result;
+}
+
 function CreateKeySync(body)
 {
     //var body = time;

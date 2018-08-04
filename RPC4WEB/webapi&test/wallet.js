@@ -293,6 +293,30 @@ function SetDigest(body, callback)
     });
 }
 
+function SignTransaction(body, callback)
+{
+    var result = null;
+    //var body = time;
+    var key = "/v1/wallet/sign_transaction";
+    var uri =  http + domain + ":" + walletport + key;
+    doHttpCall(uri, body, function (status, data) {
+        if (status != 200 && status != 201) {   
+            var result = null;
+            if (status == 0) {
+                result = {"status":status, "error":status, "message":"UnConnect server"};
+            } else {
+                var errorCode = GetErrorCode(data); 
+                var errorMsg = GetErrorMessage(data);
+                result = {"status":status, "error":errorCode, "message":errorMsg};
+            }
+            callback(result);
+        } else {
+            var result = {"status":status, "message":data};
+            callback(result);
+        }
+    });
+}
+
 function CreateKey(body, callback)
 {
     var result = null;
