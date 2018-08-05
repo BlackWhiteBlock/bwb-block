@@ -28,6 +28,7 @@
             font-size: 18px;
         }
     </style>
+    <script type="text/javascript" src="./pagejs/transferpage.js"></script>
 </head>
 <body>
 <div>
@@ -47,21 +48,19 @@
 </div>
 </body>
 <script>
-    var code = GetQueryString('code');
-
     function choose(tag) {
         switch (tag){
             case 1:
-                window.location.href="BWTransfer.html?"+"code="code;
+                location.href="pagetransfer.html";
                 break;
             case 2:
-                window.location.href="BWHotel.html?"+"code="code;
+                location.href="pagehotel.html";
                 break;
             case 3:
-                window.location.href="BWGangFu.html?"+"code="code;
+                location.href="pagePV.html";
                 break;
             case 4:
-                window.location.href="BWBill.html?"+"code="code;
+                location.href="pagebill.html";
                 break;
             default:
                 break;

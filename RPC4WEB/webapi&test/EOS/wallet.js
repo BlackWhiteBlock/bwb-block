@@ -1,12 +1,87 @@
-document.write("<script src='config.js'></script>");
-document.write("<script src='httpcall.js'></script>");
+document.write("<script src='./EOS/config.js'></script>");
+document.write("<script src='./EOS/httpcall.js'></script>");
 
-function GetInfo(callback)
+
+
+function CreateWallet(body, callback)
+{
+    var result = null;
+    //var body = '"' + walletName + '"';
+    var key = "/v1/wallet/create";
+    var uri =  config_http + config_wallet_domain + ":" + config_wallet_port + key;
+    doHttpCall(uri, body, function (status, data) {
+        alert(status);
+        if (status != 200 && status != 201) {   
+            var result = null;
+            if (status == 0) {
+                result = {"status":status, "error":status, "message":"UnConnect server"};
+            } else {
+                var errorCode = GetErrorCode(data); 
+                var errorMsg = GetErrorMessage(data);
+                result = {"status":status, "error":errorCode, "message":errorMsg};
+            }
+            callback(result);
+        } else {
+            var result = {"status":status, "message":data};
+            callback(result);
+        }
+    });
+}
+
+function OpenWallet(body, callback)
+{
+    var result = null;
+    //var body = '"' + walletName + '"';
+    var key = "/v1/wallet/open";
+    var uri =  config_http + config_wallet_domain + ":" + config_wallet_port + key;
+    doHttpCall(uri, body, function (status, data) {
+        if (status != 200 && status != 201) {   
+            var result = null;
+            if (status == 0) {
+                result = {"status":status, "error":status, "message":"UnConnect server"};
+            } else {
+                var errorCode = GetErrorCode(data); 
+                var errorMsg = GetErrorMessage(data);
+                result = {"status":status, "error":errorCode, "message":errorMsg};
+            }
+            callback(result);
+        } else {
+            var result = {"status":status, "message":data};
+            callback(result);
+        }
+    });
+}
+
+function LockWallet(body, callback)
+{
+    var result = null;
+    //var body = '"' + walletName + '"';
+    var key = "/v1/wallet/lock";
+    var uri =  config_http + config_wallet_domain + ":" + config_wallet_port + key;
+    doHttpCall(uri, body, function (status, data) {
+        if (status != 200 && status != 201) {   
+            var result = null;
+            if (status == 0) {
+                result = {"status":status, "error":status, "message":"UnConnect server"};
+            } else {
+                var errorCode = GetErrorCode(data); 
+                var errorMsg = GetErrorMessage(data);
+                result = {"status":status, "error":errorCode, "message":errorMsg};
+            }
+            callback(result);
+        } else {
+            var result = {"status":status, "message":data};
+            callback(result);
+        }
+    });
+}
+
+function LockAllWallets(callback)
 {
     var result = null;
     var body;
-    var key = "/v1/chain/get_info";
-    var uri =  config_http + config_chain_domain + ":" + config_chain_port + key;    
+    var key = "/v1/wallet/lock_all";
+    var uri =  config_http + config_wallet_domain + ":" + config_wallet_port + key;
     doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
@@ -25,12 +100,12 @@ function GetInfo(callback)
     });
 }
 
-function GetBlock(body, callback)
+function UnlockWallet(body, callback)
 {
     var result = null;
-    //var body = '{"block_num_or_id":' + blockNumOrID + '}';
-    var key = "/v1/chain/get_block";
-    var uri =  config_http + config_chain_domain + ":" + config_chain_port + key;    
+    //var body = '["' + walletName + '","' + password + '"]';
+    var key = "/v1/wallet/unlock";
+    var uri =  config_http + config_wallet_domain + ":" + config_wallet_port + key;
     doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
@@ -49,12 +124,12 @@ function GetBlock(body, callback)
     });
 }
 
-function GetBlockHeaderState(body, callback)
+function ImwalletportKey(body, callback)
 {
     var result = null;
-    //var body = '{"block_num_or_id":' + blockNumOrID + '}';
-    var key = "/v1/chain/get_block_header_state";
-    var uri =  config_http + config_chain_domain + ":" + config_chain_port + key;    
+    var body = '["' + walletName + '","' + privateKey + '"]';
+    var key = "/v1/wallet/imwalletport_key";
+    var uri =  config_http + config_wallet_domain + ":" + config_wallet_port + key;
     doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
@@ -73,12 +148,12 @@ function GetBlockHeaderState(body, callback)
     });
 }
 
-function GetCurrentBalance(body, callback)
+function ListWallets(callback)
 {
     var result = null;
-    //var body = '{"block_num_or_id":' + blockNumOrID + '}';
-    var key = "/v1/chain/get_currency_balance";
-    var uri =  config_http + config_chain_domain + ":" + config_chain_port + key;    
+    var body;
+    var key = "/v1/wallet/list_wallets";
+    var uri =  config_http + config_wallet_domain + ":" + config_wallet_port + key;
     doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
@@ -97,12 +172,12 @@ function GetCurrentBalance(body, callback)
     });
 }
 
-function GetCurrentBalance(body, callback)
+function ListKeys(callback)
 {
     var result = null;
-    //var body = '{"block_num_or_id":' + blockNumOrID + '}';
-    var key = "/v1/chain/get_currency_balance";
-    var uri =  config_http + config_chain_domain + ":" + config_chain_port + key;    
+    var body;
+    var key = "/v1/wallet/list_keys";
+    var uri =  config_http + config_wallet_domain + ":" + config_wallet_port + key;
     doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
@@ -121,12 +196,12 @@ function GetCurrentBalance(body, callback)
     });
 }
 
-function GetAccount(body, callback)
+function SetTimeout(body, callback)
 {
     var result = null;
-    //var body = '{"account_name":"' + accountName + '"}';
-    var key = "/v1/chain/get_account";
-    var uri =  config_http + config_chain_domain + ":" + config_chain_port + key;    
+    //var body = time;
+    var key = "/v1/wallet/set_timeout";
+    var uri =  config_http + config_wallet_domain + ":" + config_wallet_port + key;
     doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
@@ -145,12 +220,12 @@ function GetAccount(body, callback)
     });
 }
 
-function GetAbi(body, callback)
+function SetDir(body, callback)
 {
     var result = null;
-    //var body = '{"account_name":"' + accountName + '"}';
-    var key = "/v1/chain/get_code";
-    var uri =  config_http + config_chain_domain + ":" + config_chain_port + key;    
+    //var body = time;
+    var key = "/v1/wallet/set_dir";
+    var uri =  config_http + config_wallet_domain + ":" + config_wallet_port + key;
     doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
@@ -169,11 +244,12 @@ function GetAbi(body, callback)
     });
 }
 
-function GetTableRows(body, callback)
+function SetEosioKey(body, callback)
 {
     var result = null;
-    var key = "/v1/chain/get_table_rows";
-    var uri =  config_http + config_chain_domain + ":" + config_chain_port + key;    
+    //var body = time;
+    var key = "/v1/wallet/set_eosio_key";
+    var uri =  config_http + config_wallet_domain + ":" + config_wallet_port + key;
     doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
@@ -189,14 +265,15 @@ function GetTableRows(body, callback)
             var result = {"status":status, "message":data};
             callback(result);
         }
-    });     
+    });
 }
 
-function PushTransaction(body, callback)
+function SetDigest(body, callback)
 {
     var result = null;
-    var key = "/v1/chain/push_transaction";
-    var uri =  config_http + config_chain_domain + ":" + config_chain_port + key;    
+    //var body = time;
+    var key = "/v1/wallet/sign_digest";
+    var uri =  config_http + config_wallet_domain + ":" + config_wallet_port + key;
     doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
@@ -212,14 +289,15 @@ function PushTransaction(body, callback)
             var result = {"status":status, "message":data};
             callback(result);
         }
-    });     
+    });
 }
 
-function GetTableRows(body, callback)
+function SignTransaction(body, callback)
 {
     var result = null;
-    var key = "/v1/chain/get_table_rows";
-    var uri =  config_http + config_chain_domain + ":" + config_chain_port + key;    
+    //var body = time;
+    var key = "/v1/wallet/sign_transaction";
+    var uri =  config_http + config_wallet_domain + ":" + config_wallet_port + key;
     doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
@@ -235,14 +313,15 @@ function GetTableRows(body, callback)
             var result = {"status":status, "message":data};
             callback(result);
         }
-    });     
+    });
 }
 
-function AbiJsonToBin(body, callback)
+function CreateKey(body, callback)
 {
     var result = null;
-    var key = "/v1/chain/abi_json_to_bin";
-    var uri =  config_http + config_chain_domain + ":" + config_chain_port + key;    
+    //var body = time;
+    var key = "/v1/wallet/create_key";
+    var uri =  config_http + config_wallet_domain + ":" + config_wallet_port + key;
     doHttpCall(uri, body, function (status, data) {
         if (status != 200 && status != 201) {   
             var result = null;
@@ -258,122 +337,8 @@ function AbiJsonToBin(body, callback)
             var result = {"status":status, "message":data};
             callback(result);
         }
-    });     
-}
-
-function AbiBinToJson(body, callback)
-{
-    var result = null;
-    var key = "/v1/chain/abi_bin_to_json";
-    var uri =  config_http + config_chain_domain + ":" + config_chain_port + key;    
-    doHttpCall(uri, body, function (status, data) {
-        if (status != 200 && status != 201) {   
-            var result = null;
-            if (status == 0) {
-                result = {"status":status, "error":status, "message":"UnConnect server"};
-            } else {
-                var errorCode = GetErrorCode(data); 
-                var errorMsg = GetErrorMessage(data);
-                result = {"status":status, "error":errorCode, "message":errorMsg};
-            }
-            callback(result);
-        } else {
-            var result = {"status":status, "message":data};
-            callback(result);
-        }
-    });     
-}
-
-function GetRequireKeys(body, callback)
-{
-    var result = null;
-    var key = "/v1/chain/get_required_keys";
-    var uri =  config_http + config_chain_domain + ":" + config_chain_port + key;    
-    doHttpCall(uri, body, function (status, data) {
-        if (status != 200 && status != 201) {   
-            var result = null;
-            if (status == 0) {
-                result = {"status":status, "error":status, "message":"UnConnect server"};
-            } else {
-                var errorCode = GetErrorCode(data); 
-                var errorMsg = GetErrorMessage(data);
-                result = {"status":status, "error":errorCode, "message":errorMsg};
-            }
-            callback(result);
-        } else {
-            var result = {"status":status, "message":data};
-            callback(result);
-        }
-    });     
-}
-
-function GetCurrentStats(body, callback)
-{
-    var result = null;
-    var key = "/v1/chain/get_currency_stats";
-    var uri =  config_http + config_chain_domain + ":" + config_chain_port + key;    
-    doHttpCall(uri, body, function (status, data) {
-        if (status != 200 && status != 201) {   
-            var result = null;
-            if (status == 0) {
-                result = {"status":status, "error":status, "message":"UnConnect server"};
-            } else {
-                var errorCode = GetErrorCode(data); 
-                var errorMsg = GetErrorMessage(data);
-                result = {"status":status, "error":errorCode, "message":errorMsg};
-            }
-            callback(result);
-        } else {
-            var result = {"status":status, "message":data};
-            callback(result);
-        }
-    });     
-}
-
-function GetProducers(body, callback)
-{
-    var result = null;
-    var key = "/v1/chain/get_producers";
-    var uri =  config_http + config_chain_domain + ":" + config_chain_port + key;    
-    doHttpCall(uri, body, function (status, data) {
-        if (status != 200 && status != 201) {   
-            var result = null;
-            if (status == 0) {
-                result = {"status":status, "error":status, "message":"UnConnect server"};
-            } else {
-                var errorCode = GetErrorCode(data); 
-                var errorMsg = GetErrorMessage(data);
-                result = {"status":status, "error":errorCode, "message":errorMsg};
-            }
-            callback(result);
-        } else {
-            var result = {"status":status, "message":data};
-            callback(result);
-        }
-    });     
-}
-
-function PushBlock(body, callback)
-{
-    var result = null;
-    var key = "/v1/chain/push_block";
-    var uri =  config_http + config_chain_domain + ":" + config_chain_port + key;    
-    doHttpCall(uri, body, function (status, data) {
-        if (status != 200 && status != 201) {   
-            var result = null;
-            if (status == 0) {
-                result = {"status":status, "error":status, "message":"UnConnect server"};
-            } else {
-                var errorCode = GetErrorCode(data); 
-                var errorMsg = GetErrorMessage(data);
-                result = {"status":status, "error":errorCode, "message":errorMsg};
-            }
-            callback(result);
-        } else {
-            var result = {"status":status, "message":data};
-            callback(result);
-        }
-    });     
+    });
+    return result;
 }
 
 

@@ -1,4 +1,4 @@
-document.write("<script src='historySync.js'></script>");
+document.write("<script src='./EOS/eoscommon.js'></script>");
 //sync
 function login()
 {
@@ -11,10 +11,10 @@ function login()
     var data = UnlockWalletSync(body);
     if (data.status == 200 || data.status == 201)
     {
-        location.href="transfer.html";
+        location.href="pagecontents.html";
     } else {
         alert("密码错误，请重新输入");  
-        location.href="transfer.html";        
+        location.href="pagecontents.html";        
     }
 };
 

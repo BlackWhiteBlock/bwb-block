@@ -50,29 +50,26 @@
             display: block;
         }
     </style>
+    <script src="./JQuery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./pagejs/hotelpage.js"></script>
 </head>
 <body>
 <div class="content">
     <span class="transfer">预定酒店</span><br/>
-    <span class="name">user1</span><br/>
+    <span id="accountname" class="name">user2</span><br/>
     <span class="input">
-        <span class="address">账户地址:DSHKGHASHGKDGDKGDGHDGHDLGJ</span>
-        <span class="yuer">余额:67BWB</span>
+        <span id="accountaddress" class="address"></span>
+        <span id="currency" class="yuer"></span>
     </span>
     <span class="date">请输入需要预定的日期</span>
     <span class="input">
         <span>
             <input class="moneyInput" type="text" placeholder="" id="moneyInputName" o="">
         </span>
-        <span class="money">花费:10BWB</span>
+        <span id="totalcost" class="money"></span>
     </span>
-    <span class="yuding" onclick="yuding()">预定</span>
-    <span class="title">您已经成功预定XXXXX日期的XXXX酒店一天，请于当天12点之前到酒店前台办理入住</span>
+    <span class="yuding" onclick="Reserve()">预定</span>
+    <span id="reserveresult" class="title"></span>
 </div>
-<script>
-    function yuding() {
-        
-    }
-</script>
 </body>
 </html>

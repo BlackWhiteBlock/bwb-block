@@ -1,5 +1,5 @@
-document.write("<script src='historySync.js'></script>");
-document.write("<script src='eoscommon.js'></script>");
+
+document.write("<script src='./EOS/eoscommon.js'></script>");
 
 $(document).ready(function () {
     var accountnames = eos_common_get_account();
@@ -27,8 +27,8 @@ $(document).ready(function () {
 function Transfer(from, to, number, memo)
 {
     if (eos_common_transfer(from, to, number, memo)) {
-        alert("转帐成功");
+        alert("购买成功");
     } else {
-        alert("转帐失败");
+        alert("失败");
     }
 }

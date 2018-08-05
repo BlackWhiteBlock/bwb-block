@@ -49,14 +49,16 @@
         }
 
     </style>
+    <script src="./JQuery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./pagejs/PVpage.js"></script>
 </head>
 <body>
 <div class="content">
     <span class="transfer">欢迎来到光伏项目</span><br/>
-    <span class="name">user2</span><br/>
+    <span id="accountname" class="name">user2</span><br/>
     <span class="input">
-        <span class="address">账户地址:DSHKGHASHGKDGDKGDGHDGHDLGJ</span>
-        <span class="yuer">余额:67BWB</span>
+        <span id="accountaddress" class="address">账户地址:DSHKGHASHGKDGDKGDGHDGHDLGJ</span>
+        <span id="currency" class="yuer"></span>
     </span>
     <span class="input">
         <span class="num">请输入您要兑换的光伏板数量：</span>
@@ -65,14 +67,14 @@
         </span>
     </span>
     <span class="input">
-        <span class="address">请输入您要安装的地址和地址：</span>
+        <span class="address">请输入您要安装的地址和联系方式：</span>
         <span>
             <input class="addressInput" type="text" placeholder="" id="addressInputName" o="">
         </span>
     </span>
-    <span class="total">总花费:50BWB</span>
-    <span class="exchange" onclick="exchange()">确认兑换</span>
-    <span class="title">您已经成功兑换XX数量的光伏板，请保持电话畅通，客服会联系您，预约时间上门安装。</span>
+    <span id="totalcost" class="total"></span>
+    <span class="exchange" onclick="Exchange()">确认兑换</span>
+    <span id="exchangeresult" class="title"></span>
 </div>
 </body>
 </html>

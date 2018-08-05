@@ -12,6 +12,7 @@ var config_wallet_password = "PW5HpurETUUQgT8f6ezPP129gbQD2RdXkRUWLGrGUorc5hvj3p
 var config_wallet_publickey = "EOS8Jdey8ZMUi9xNRjRWmo3vgA7NSXg5wLhjHbbx9r3W8hq9BKon7";
 
 /*contract config*/
+var config_currency_symbol = "BWB";
 var config_account_code = "eos.token";
 
 /*json config*/

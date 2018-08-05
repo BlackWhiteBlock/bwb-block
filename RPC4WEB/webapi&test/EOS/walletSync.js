@@ -1,5 +1,5 @@
-document.write("<script src='config.js'></script>");
-document.write("<script src='httpcallSync.js'></script>");
+document.write("<script src='./EOS/config.js'></script>");
+document.write("<script src='./EOS/httpcallSync.js'></script>");
 
 function CreateWalletSync(body)
 {

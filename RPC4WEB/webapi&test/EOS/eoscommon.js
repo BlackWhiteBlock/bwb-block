@@ -1,4 +1,6 @@
-document.write("<script src='historySync.js'></script>");
+document.write("<script src='./EOS/historySync.js'></script>");
+document.write("<script src='./EOS/chainSync.js'></script>");
+document.write("<script src='./EOS/walletSync.js'></script>");
 
 function eos_common_get_account()
 {
