@@ -4,7 +4,8 @@ document.write("<script src='./EOS/walletSync.js'></script>");
 
 function eos_common_get_account()
 {
-    var body = config_wallet_publickey;
+    var body = {"public_key":""};
+    body.public_key = config_wallet_publickey;
     var data = GetKeyAccountsSync(JSON.stringify(body));
     if (data.status == 200 || data.status == 201)
     {

@@ -2,13 +2,13 @@
 document.write("<script src='./EOS/eoscommon.js'></script>");
 
 $(document).ready(function () {
-    var accountnames = eos_common_get_account();
-    if (accountnames != null) {
-        var i = 0;
-        for (var name in jsonObj.account_names)
+    var accountnamesObj = eos_common_get_account();
+    if (accountnamesObj != null) {
+        var index = 0;
+        for (index = 0; index < accountnamesObj.account_names.length; index++)
         {
-            i++;
-            $("#userselect").append("<option value=" + name + ">" + name + "</option>");
+            console.log(accountnamesObj.account_names[index]);
+            $("#userselect").append("<option value=" + accountnamesObj.account_names[index] + ">" + accountnamesObj.account_names[index] + "</option>");
         }
     } else {
         alert("Get accounts failed");
