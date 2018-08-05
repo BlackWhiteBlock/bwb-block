@@ -27,6 +27,7 @@ $(document).ready(function () {
 function Transfer(from, to, number, memo)
 {
     if (eos_common_transfer(from, to, number, memo)) {
+        getAccountCurrency();
         alert("转帐成功");
     } else {
         alert("转帐失败");

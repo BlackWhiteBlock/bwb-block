@@ -21,7 +21,8 @@ function Reserve()
     console.log(number);
     if (eos_common_transfer(from, to, number, memo)) {
         //alert("预定成功");
-        $('#totalcost').text("花费" + number);
+        getAccountCurrency();
+        $('#totalcost').text("花费:" + number);
         $('#reserveresult').text("您已经成功预定" + $('#moneyInputName').val() + "酒店一天，请于当天12点之前到酒店前台办理入住");
     } else {
         //alert("预定成功");

@@ -21,7 +21,8 @@ function Exchange()
     console.log(number);
     if (eos_common_transfer(from, to, number, memo)) {
         //alert("兑换成功");
-        $('#totalcost').text("花费" + number);
+        getAccountCurrency();
+        $('#totalcost').text("花费:" + number);
         $('#exchangeresult').text("您已经成功兑换" + PVnumber + "光伏，请保持电话畅通，客服会联系您，预约时间上门安装。");
     } else {
         //alert("兑换失败");

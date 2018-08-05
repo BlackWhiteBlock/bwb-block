@@ -21,7 +21,7 @@ function eos_common_get_currecny(account)
     //set json for get currency
     var body = config_get_currency_json_obj;
     body.code = config_account_code;
-    body.account_name = account;
+    body.account = account;
     var data = GetCurrencyBalanceSync(JSON.stringify(body));
     if (data.status == 200 || data.status == 201)
     {

@@ -18,7 +18,7 @@ var config_account_code = "eos.token";
 /*json config*/
 var config_get_currency_json_obj = {
     "code":"contatct accont", 
-    "account_name":"account name"
+    "account":"account name"
 };
 
 var config_get_block_json_obj = {
