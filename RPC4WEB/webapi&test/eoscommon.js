@@ -1,40 +1,24 @@
 document.write("<script src='historySync.js'></script>");
 
-$(document).ready(function () {
-    getAccounts();
- });
-
-function getAccounts()
+function eos_common_get_account()
 {
-    alert("login click");
-
     var body = config_wallet_publickey;
     var data = GetKeyAccountsSync(JSON.stringify(body));
     if (data.status == 200 || data.status == 201)
     {
-        alert(data.status);
-        alert(data.message);
         var jsonObj = data.message;
-        var i = 0;
-        for (var name in jsonObj.account_names)
-        {
-            i++;
-            $("#userselect").append("<option value=" + name + ">" + name + "</option>");
-        }
+        return jsonObj;
     } else {
-        alert(data.error);         
+        return null;        
     }
-    $("#userselect").val("user1");
-    $("#accountaddress").text("账户地址:" + body);
-    $("#currency").text("账户余额:" + getAccountCurrency());
 }
 
-function getAccountCurrency()
+function eos_common_get_currecny(account)
 {
     //set json for get currency
     var body = config_get_currency_json_obj;
     body.code = config_account_code;
-    body.account_name = $('#userselect').val();
+    body.account_name = account;
     var data = GetCurrencyBalanceSync(JSON.stringify(body));
     if (data.status == 200 || data.status == 201)
     {
@@ -42,11 +26,12 @@ function getAccountCurrency()
         //alert(JSON.stringify(jsonobj));
         return JSON.stringify(jsonobj);
     } else {
-        alert("账户余额查询失败");          
+        alert("账户余额查询失败");
+        return null;        
     }    
 }
 
-function Transfer(from, to, number, memo)
+function eos_common_transfer(from, to, number, memo)
 {
     var binary = "";
     var blocknum = 0;
@@ -71,7 +56,7 @@ function Transfer(from, to, number, memo)
         console.log(binary);
     } else {
         alert("json to bin failed:" + data.error);
-        return;            
+        return false;            
     }
 
     //get info
@@ -84,7 +69,7 @@ function Transfer(from, to, number, memo)
         //console.log(blocknum);
     } else {
         alert("Get Info failed:" + data.error); 
-        return; 
+        return false; 
         //alert(data.status);
         //alert(data.message);          
     }
@@ -105,7 +90,7 @@ function Transfer(from, to, number, memo)
         console.log(timestamp);
     } else {
         alert("get block failed:" + data.error);
-        return;           
+        return false;           
     }    
 
     var jsonUnlockWallet = '["' + config_wallet_name + '","' + config_wallet_password + '"]';
@@ -144,7 +129,7 @@ function Transfer(from, to, number, memo)
         console.log(JSON.stringify(jsonRequiredKeyResult));
     } else {
         alert("Get required keys failed:" + data.error);
-        return;           
+        return false;           
     }  
 
 
@@ -169,7 +154,7 @@ function Transfer(from, to, number, memo)
         console.log(JSON.stringify(jsonSignResult));
     } else {
         alert("Sign transaction failed:" + data.error);  
-        return;       
+        return false;       
     }  
 
     //set json for tansaction
@@ -187,8 +172,8 @@ function Transfer(from, to, number, memo)
     {
         var jsonobj = data.message;
         console.log(JSON.stringify(jsonobj));
-        alert("转帐成功");
+        return true;
     } else {
-        alert("转帐失败" + data.error);         
+        return false;       
     }   
 }
