@@ -1,0 +1,59 @@
+
+/*配置账户*/
+Creating wallet: bwb
+Save password to use in the future to unlock this wallet.
+Without password imported keys will not be retrievable.
+"PW5HpurETUUQgT8f6ezPP129gbQD2RdXkRUWLGrGUorc5hvj3phXh"
+
+Private key: 5KbNTPTywow7LvBpeekRqtdDrQMND5XDvkHzoNtPX1TTZu2c6NK
+Public key: EOS8Jdey8ZMUi9xNRjRWmo3vgA7NSXg5wLhjHbbx9r3W8hq9BKon7
+
+cleos create account eosio eos.token EOS8Jdey8ZMUi9xNRjRWmo3vgA7NSXg5wLhjHbbx9r3W8hq9BKon7
+cleos create account eosio user1 EOS8Jdey8ZMUi9xNRjRWmo3vgA7NSXg5wLhjHbbx9r3W8hq9BKon7
+cleos create account eosio user2 EOS8Jdey8ZMUi9xNRjRWmo3vgA7NSXg5wLhjHbbx9r3W8hq9BKon7 
+
+cleos set contract eos.token ../../contracts/eosio.token -p eos.token
+cleos push action eos.token create '[ "eosio", "1000000000.0000 SYS", 0, 0, 0]' -p eos.token
+cleos push action eos.token create '[ "eosio", "1000000000.0000 BWB", 0, 0, 0]' -p eos.token
+cleos push action eos.token issue '["user1", "1000000000.0000 SYS", "eos.token to user1"]' -p eosio
+cleos push action eos.token issue '["user1", "1000000000.0000 BWB", "eos.token to user1"]' -p eosio
+cleos push action eos.token transfer '["user1","user2","10000.0000 SYS","user1 to user2 1000BWB"]' -p user1
+cleos push action eos.token transfer '["user1","user2","10000.0000 BWB","user1 to user2 1000BWB"]' -p user1
+cleos get currency balance eos.token user1 SYS
+
+
+cd ~/.local/share/eosio/nodeos/config/
+/*修改config.ini* /
+# Specify the Access-Control-Allow-Origin to be returned on each request. (eosio::http_plugin)
+access-control-allow-origin = *
+
+# Specify the Access-Control-Allow-Headers to be returned on each request. (eosio::http_plugin)
+access-control-allow-headers = access-control-allow-origin
+
+# Specify the Access-Control-Max-Age to be returned on each request. (eosio::http_plugin)
+# access-control-max-age =
+
+# Specify if Access-Control-Allow-Credentials: true should be returned on each request. (eosio::http_plugin)
+access-control-allow-credentials = true
+
+
+cd ~/eosio-wallet/
+/*修改config.ini* /
+# Specify the Access-Control-Allow-Origin to be returned on each request. (eosio::http_plugin)
+access-control-allow-origin = *
+
+# Specify the Access-Control-Allow-Headers to be returned on each request. (eosio::http_plugin)
+access-control-allow-headers = access-control-allow-origin
+
+# Specify the Access-Control-Max-Age to be returned on each request. (eosio::http_plugin)
+# access-control-max-age =
+
+# Specify if Access-Control-Allow-Credentials: true should be returned on each request. (eosio::http_plugin)
+access-control-allow-credentials = true
+
+
+
+
+
+
+
